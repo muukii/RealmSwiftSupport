@@ -17,6 +17,7 @@ enum Schema {
     class User: RealmSwift.Object {
       @objc dynamic var firstName: String = ""
       @objc dynamic var lastName: String = ""
+      @objc dynamic var email: String = ""
     }
   }
 
@@ -34,10 +35,11 @@ enum Schema {
     class User: RealmSwift.Object {
       @objc dynamic var name: String = ""
       let age: RealmOptional<Int> = .init(nil)
+      @objc dynamic var email: String = ""
     }
   }
 
-  typealias Current = V1
+//  typealias Current = V1
 }
 
 private var rootDirectoryPath: String {
@@ -58,40 +60,66 @@ func makeTempPath(identifier: String) -> URL {
   return URL(fileURLWithPath: path)
 }
 
+
+
 class MigrationTests: XCTestCase {
 
-  let path = makeTempPath(identifier: "\(UUID().uuidString).realm")
+//  let path = makeTempPath(identifier: "\(UUID().uuidString).realm")
+  let path = makeTempPath(identifier: "migrationTests.realm")
 
   override func setUp() {
     super.setUp()
     print(path)
   }
+  
+  private func makeConfig(
+    schemaVersion: UInt64, 
+    objectTypes: [Object.Type], 
+    migrationBlock: @escaping MigrationBlock
+  ) -> Realm.Configuration {
+    
+    .init(
+      fileURL: path, 
+      inMemoryIdentifier: nil, 
+      syncConfiguration: nil, 
+      encryptionKey: nil, 
+      readOnly: false, 
+      schemaVersion: schemaVersion, 
+      migrationBlock: migrationBlock, 
+      deleteRealmIfMigrationNeeded: false, 
+      shouldCompactOnLaunch: nil, 
+      objectTypes: objectTypes
+    )
+  }
+  
+  func testDeleteRealmFile() {
+    
+    do {
+      try FileManager.default.removeItem(at: path)
+    } catch {
+      fatalError("Failed to remove realm file: \(path)")
+    }
+  }
+  
+  // MARK: Migration Tests
 
-  func testInit() {
+  func testV1() {
 
-    let v1 = Realm.Configuration(
-      fileURL: path,
-      inMemoryIdentifier: nil,
-      syncConfiguration: nil,
-      encryptionKey: nil,
-      readOnly: false,
-      schemaVersion: 1,
-      migrationBlock: { migration, _ in
-        migration
-    }, deleteRealmIfMigrationNeeded: false,
-       shouldCompactOnLaunch: nil,
-       objectTypes: [
-        Schema.V1.User.self
-    ])
+    let config = makeConfig(
+      schemaVersion: 1, 
+      objectTypes: [Schema.V1.User.self], 
+      migrationBlock: { migration, oldSchemaVersion in 
+    })
 
     do {
 
-      let realm = try Realm(configuration: v1)
+      let realm = try Realm(configuration: config)
 
       try realm.throwableWrite { realm in
         let user = Schema.V1.User()
-        user.firstName = "Hiroshi"
-        user.lastName = "Kimura"
+        user.firstName = "John"
+        user.lastName = "Appleseed"
+        user.email = "john@example.com"
         realm.add(user)
       }
 
@@ -101,7 +129,26 @@ class MigrationTests: XCTestCase {
 
       XCTFail("\(error)")
     }
+  }
+  
+  func testV2() {
 
+    let config = makeConfig(
+      schemaVersion: 2, 
+      objectTypes: [Schema.V2.User.self], 
+      migrationBlock: { migration, oldSchemaVersion in 
+    })
+
+    do {
+
+      let realm = try Realm(configuration: config)
+
+      XCTAssertEqual(realm.objects(Schema.V2.User.self).count, 1)
+
+    } catch {
+
+      XCTFail("\(error)")
+    }
   }
 
 }
