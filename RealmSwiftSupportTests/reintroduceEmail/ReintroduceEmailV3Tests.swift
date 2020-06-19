@@ -8,7 +8,28 @@ class User: RealmSwift.Object {
 
 class ReintroduceEmailV3Tests: XCTestCase {
 
-  func test() {
+  func testForRunningAllVersions() {
+
+    let config = makeConfig(
+      schemaVersion: 3,
+      objectTypes: [User.self], 
+      migrationBlock: { migration, oldSchemaVersion in
+    })
+    
+    do {
+      
+      let realm = try Realm(configuration: config)
+      
+      XCTAssertEqual(realm.objects(User.self).count, 1)
+      XCTAssertEqual(realm.objects(User.self).first?.email, "")
+      
+    } catch {
+      
+      XCTFail("\(error)")
+    }
+  }
+
+  func testForV2Skipped() {
     
     let config = makeConfig(
       schemaVersion: 3,
@@ -21,11 +42,6 @@ class ReintroduceEmailV3Tests: XCTestCase {
       let realm = try Realm(configuration: config)
       
       XCTAssertEqual(realm.objects(User.self).count, 1)
-
-      // for running V1 -> V2 -> V3
-//      XCTAssertEqual(realm.objects(User.self).first?.email, "")
-      
-      // for running V1 -> V3
       XCTAssertEqual(realm.objects(User.self).first?.email, "john@example.com")
       
     } catch {
@@ -33,4 +49,35 @@ class ReintroduceEmailV3Tests: XCTestCase {
       XCTFail("\(error)")
     }
   }
+
+  func testForV2SkippedAndDeleteInMigrationBlock() {
+    
+    let config = makeConfig(
+      schemaVersion: 3,
+      objectTypes: [User.self], 
+      migrationBlock: { migration, oldSchemaVersion in
+        
+        migration.enumerateObjects(ofType: User.className()) { (old, new) in
+          
+          // new?["email"] = nil
+          // => caught "RLMException", "Invalid value '(null)' of type '(null)' for 'string' property 'User.email'."
+          // do not set nil for an optional property
+          
+          new?["email"] = ""
+        }
+    })
+    
+    do {
+      
+      let realm = try Realm(configuration: config)
+      
+      XCTAssertEqual(realm.objects(User.self).count, 1)
+      XCTAssertEqual(realm.objects(User.self).first?.email, "")
+      
+    } catch {
+      
+      XCTFail("\(error)")
+    }
+  }
+
 }

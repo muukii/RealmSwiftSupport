@@ -20,7 +20,7 @@
 		4BC4765C249138E100A6954F /* RealmSwiftSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4BC47652249138E100A6954F /* RealmSwiftSupport.framework */; };
 		4BC47661249138E100A6954F /* RealmSwiftSupportTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC47660249138E100A6954F /* RealmSwiftSupportTests.swift */; };
 		4BC47663249138E100A6954F /* RealmSwiftSupport.h in Headers */ = {isa = PBXBuildFile; fileRef = 4BC47655249138E100A6954F /* RealmSwiftSupport.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7C691596249C66A9000F580B /* ReintroduceEmailV3Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C69158E249C627E000F580B /* ReintroduceEmailV3Tests.swift */; };
+		7C69159D249C6B2B000F580B /* ReintroduceEmailV3Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C69158E249C627E000F580B /* ReintroduceEmailV3Tests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -418,7 +418,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7C691596249C66A9000F580B /* ReintroduceEmailV3Tests.swift in Sources */,
+				7C69159D249C6B2B000F580B /* ReintroduceEmailV3Tests.swift in Sources */,
 				4BA3732C2493ECB100AE4F6C /* MigrationTests.swift in Sources */,
 				4BC47661249138E100A6954F /* RealmSwiftSupportTests.swift in Sources */,
 			);

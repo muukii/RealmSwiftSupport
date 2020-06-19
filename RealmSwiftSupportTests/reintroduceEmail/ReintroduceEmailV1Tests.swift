@@ -1,11 +1,3 @@
-//
-//  MigrationReintroduceEmailTests.swift
-//  RealmSwiftSupportTests
-//
-//  Created by Kenji Tayama on 2020/06/19.
-//  Copyright © 2020 muukii. All rights reserved.
-//
-
 import XCTest
 import RealmSwift
 
