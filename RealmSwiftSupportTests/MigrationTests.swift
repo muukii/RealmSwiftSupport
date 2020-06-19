@@ -59,7 +59,6 @@ class MigrationTests: XCTestCase {
     print(realmPath)
   }
   
-  
   func testDeleteRealmFile() {
     
     do {

@@ -17,13 +17,9 @@ class ReintroduceEmailV2Tests: XCTestCase {
     })
     
     do {
-      
       let realm = try Realm(configuration: config)
-      
       XCTAssertEqual(realm.objects(User.self).count, 1)
-      
     } catch {
-      
       XCTFail("\(error)")
     }
   }
@@ -34,7 +30,6 @@ class ReintroduceEmailV2Tests: XCTestCase {
       schemaVersion: 2, 
       objectTypes: [User.self], 
       migrationBlock: { migration, oldSchemaVersion in
-        
         
         migration.enumerateObjects(ofType: User.className()) { (old, new) in
           // caught "RLMException", "Cannot modify managed objects outside of a write transaction."
@@ -47,6 +42,26 @@ class ReintroduceEmailV2Tests: XCTestCase {
     } catch {
       XCTFail("\(error)")
     }
-    
   }
+  
+  func testFailEmptyingEmailInNew() {
+
+    let config = makeConfig(
+      schemaVersion: 2, 
+      objectTypes: [User.self], 
+      migrationBlock: { migration, oldSchemaVersion in
+        
+        migration.enumerateObjects(ofType: User.className()) { (old, new) in
+          // caught "RLMException", "Invalid property name 'email' for class 'User'."
+          new?["email"] = ""
+        }
+    })
+
+    do {
+      _ = try Realm(configuration: config)
+    } catch {
+      XCTFail("\(error)")
+    }
+  }
+  
 }
