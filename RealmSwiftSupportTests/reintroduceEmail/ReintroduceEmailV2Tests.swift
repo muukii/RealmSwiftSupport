@@ -27,4 +27,26 @@ class ReintroduceEmailV2Tests: XCTestCase {
       XCTFail("\(error)")
     }
   }
+  
+  func testFailEmptyingEmailInOld() {
+
+    let config = makeConfig(
+      schemaVersion: 2, 
+      objectTypes: [User.self], 
+      migrationBlock: { migration, oldSchemaVersion in
+        
+        
+        migration.enumerateObjects(ofType: User.className()) { (old, new) in
+          // caught "RLMException", "Cannot modify managed objects outside of a write transaction."
+          old?["email"] = ""
+        }
+    })
+
+    do {
+      _ = try Realm(configuration: config)
+    } catch {
+      XCTFail("\(error)")
+    }
+    
+  }
 }
