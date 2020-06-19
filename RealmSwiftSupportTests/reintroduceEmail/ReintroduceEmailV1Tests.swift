@@ -6,14 +6,16 @@ class User: RealmSwift.Object {
   @objc dynamic var email: String = ""
 }
 
+
+/// How to use
+/// 1. Remove Target Membership of other XxxVxTests.swift
+/// 2. Run each test individually, not whole test class.
 class ReintroduceEmailV1Tests: XCTestCase {
 
   override func setUp() {
     super.setUp()
     print(realmPath)
   }
-  
-  // MARK: Migration Tests
   
   /// Prepare initial data
   func test() {

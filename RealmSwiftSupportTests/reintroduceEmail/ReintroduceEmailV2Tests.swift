@@ -6,6 +6,9 @@ class User: RealmSwift.Object {
 }
 
 
+/// How to use
+/// 1. Remove Target Membership of other XxxVxTests.swift
+/// 2. Run each test individually, not whole test class.
 class ReintroduceEmailV2Tests: XCTestCase {
 
   /// Just updating scheme. Empty migration block and no other logic.
