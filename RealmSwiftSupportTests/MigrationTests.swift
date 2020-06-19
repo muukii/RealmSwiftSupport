@@ -9,43 +9,13 @@
 import XCTest
 import RealmSwift
 
-enum Schema {
-
-  enum V1 {
-
-    @objc(User)
-    class User: RealmSwift.Object {
-      @objc dynamic var firstName: String = ""
-      @objc dynamic var lastName: String = ""
-    }
-  }
-
-  enum V2 {
-    @objc(User)
-    class User: RealmSwift.Object {
-      @objc dynamic var firstName: String = ""
-      @objc dynamic var lastName: String = ""
-      let age: RealmOptional<Int> = .init(nil)
-    }
-  }
-
-  enum V3 {
-    @objc(User)
-    class User: RealmSwift.Object {
-      @objc dynamic var name: String = ""
-      let age: RealmOptional<Int> = .init(nil)
-    }
-  }
-
-  typealias Current = V1
-}
 
 private var rootDirectoryPath: String {
   let root = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
   return (root as NSString).appendingPathComponent(Bundle.main.bundleIdentifier!)
 }
 
-func makeTempPath(identifier: String) -> URL {
+func makeRealmPath(identifier: String) -> URL {
 
   let path = rootDirectoryPath + "/\(identifier)"
 
@@ -58,50 +28,45 @@ func makeTempPath(identifier: String) -> URL {
   return URL(fileURLWithPath: path)
 }
 
-class MigrationTests: XCTestCase {
+func makeConfig(
+  schemaVersion: UInt64, 
+  objectTypes: [Object.Type], 
+  migrationBlock: @escaping MigrationBlock
+) -> Realm.Configuration {
+  
+  .init(
+    fileURL: realmPath, 
+    inMemoryIdentifier: nil, 
+    syncConfiguration: nil, 
+    encryptionKey: nil, 
+    readOnly: false, 
+    schemaVersion: schemaVersion, 
+    migrationBlock: migrationBlock, 
+    deleteRealmIfMigrationNeeded: false, 
+    shouldCompactOnLaunch: nil, 
+    objectTypes: objectTypes
+  )
+}
 
-  let path = makeTempPath(identifier: "\(UUID().uuidString).realm")
+let realmPath = makeRealmPath(identifier: "migrationTests.realm")
+
+
+
+class MigrationTests: XCTestCase {
 
   override func setUp() {
     super.setUp()
-    print(path)
+    print(realmPath)
   }
-
-  func testInit() {
-
-    let v1 = Realm.Configuration(
-      fileURL: path,
-      inMemoryIdentifier: nil,
-      syncConfiguration: nil,
-      encryptionKey: nil,
-      readOnly: false,
-      schemaVersion: 1,
-      migrationBlock: { migration, _ in
-        migration
-    }, deleteRealmIfMigrationNeeded: false,
-       shouldCompactOnLaunch: nil,
-       objectTypes: [
-        Schema.V1.User.self
-    ])
-
+  
+  
+  /// Utility test to delete the Realm file. Use to start tests from start.
+  func testDeleteRealmFile() {
+    
     do {
-
-      let realm = try Realm(configuration: v1)
-
-      try realm.throwableWrite { realm in
-        let user = Schema.V1.User()
-        user.firstName = "Hiroshi"
-        user.lastName = "Kimura"
-        realm.add(user)
-      }
-
-      XCTAssertEqual(realm.objects(Schema.V1.User.self).count, 1)
-
+      try FileManager.default.removeItem(at: realmPath)
     } catch {
-
-      XCTFail("\(error)")
+      fatalError("Failed to remove realm file: \(realmPath)")
     }
-
   }
-
 }

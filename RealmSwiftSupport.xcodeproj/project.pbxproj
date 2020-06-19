@@ -20,6 +20,7 @@
 		4BC4765C249138E100A6954F /* RealmSwiftSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4BC47652249138E100A6954F /* RealmSwiftSupport.framework */; };
 		4BC47661249138E100A6954F /* RealmSwiftSupportTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC47660249138E100A6954F /* RealmSwiftSupportTests.swift */; };
 		4BC47663249138E100A6954F /* RealmSwiftSupport.h in Headers */ = {isa = PBXBuildFile; fileRef = 4BC47655249138E100A6954F /* RealmSwiftSupport.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7C6915C7249C9BDA000F580B /* ReintroduceEmailV1Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C69158A249C6048000F580B /* ReintroduceEmailV1Tests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +60,12 @@
 		4BC47662249138E100A6954F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4C210CCCFB30CC0EFFFBE7A1 /* Pods-RealmSwiftSupport-RealmSwiftSupportTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RealmSwiftSupport-RealmSwiftSupportTests.release.xcconfig"; path = "Target Support Files/Pods-RealmSwiftSupport-RealmSwiftSupportTests/Pods-RealmSwiftSupport-RealmSwiftSupportTests.release.xcconfig"; sourceTree = "<group>"; };
 		6B0C2EC365EECC8D904235FF /* Pods-RealmSwiftSupport.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RealmSwiftSupport.debug.xcconfig"; path = "Target Support Files/Pods-RealmSwiftSupport/Pods-RealmSwiftSupport.debug.xcconfig"; sourceTree = "<group>"; };
+		7C69158A249C6048000F580B /* ReintroduceEmailV1Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReintroduceEmailV1Tests.swift; sourceTree = "<group>"; };
+		7C69158C249C624A000F580B /* ReintroduceEmailV2Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReintroduceEmailV2Tests.swift; sourceTree = "<group>"; };
+		7C69158E249C627E000F580B /* ReintroduceEmailV3Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReintroduceEmailV3Tests.swift; sourceTree = "<group>"; };
+		7C6915AE249C9041000F580B /* MigrationBlockTriggerV1Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigrationBlockTriggerV1Tests.swift; sourceTree = "<group>"; };
+		7C6915B0249C9115000F580B /* MigrationBlockTriggerV2Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigrationBlockTriggerV2Tests.swift; sourceTree = "<group>"; };
+		7C6915B4249C9358000F580B /* MigrationBlockTriggerV3Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigrationBlockTriggerV3Tests.swift; sourceTree = "<group>"; };
 		ACF14C13CC9DF0A0B1FF0F7A /* Pods_RealmSwiftSupport_RealmSwiftSupportTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RealmSwiftSupport_RealmSwiftSupportTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C32742207BF97D90AACEB2EC /* Pods-RealmSwiftSupport.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RealmSwiftSupport.release.xcconfig"; path = "Target Support Files/Pods-RealmSwiftSupport/Pods-RealmSwiftSupport.release.xcconfig"; sourceTree = "<group>"; };
 		C8E9F4E17A517A763B0BA893 /* Pods_RealmSwiftSupport.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RealmSwiftSupport.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -160,11 +167,33 @@
 		4BC4765F249138E100A6954F /* RealmSwiftSupportTests */ = {
 			isa = PBXGroup;
 			children = (
+				7C6915AD249C8FF8000F580B /* examineMigrationBlockTrigger */,
+				7C691589249C5F25000F580B /* reintroduceEmail */,
 				4BC47660249138E100A6954F /* RealmSwiftSupportTests.swift */,
 				4BA3732B2493ECB100AE4F6C /* MigrationTests.swift */,
 				4BC47662249138E100A6954F /* Info.plist */,
 			);
 			path = RealmSwiftSupportTests;
+			sourceTree = "<group>";
+		};
+		7C691589249C5F25000F580B /* reintroduceEmail */ = {
+			isa = PBXGroup;
+			children = (
+				7C69158A249C6048000F580B /* ReintroduceEmailV1Tests.swift */,
+				7C69158C249C624A000F580B /* ReintroduceEmailV2Tests.swift */,
+				7C69158E249C627E000F580B /* ReintroduceEmailV3Tests.swift */,
+			);
+			path = reintroduceEmail;
+			sourceTree = "<group>";
+		};
+		7C6915AD249C8FF8000F580B /* examineMigrationBlockTrigger */ = {
+			isa = PBXGroup;
+			children = (
+				7C6915AE249C9041000F580B /* MigrationBlockTriggerV1Tests.swift */,
+				7C6915B0249C9115000F580B /* MigrationBlockTriggerV2Tests.swift */,
+				7C6915B4249C9358000F580B /* MigrationBlockTriggerV3Tests.swift */,
+			);
+			path = examineMigrationBlockTrigger;
 			sourceTree = "<group>";
 		};
 		9166DD3914151990635F3C8F /* Frameworks */ = {
@@ -403,6 +432,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7C6915C7249C9BDA000F580B /* ReintroduceEmailV1Tests.swift in Sources */,
 				4BA3732C2493ECB100AE4F6C /* MigrationTests.swift in Sources */,
 				4BC47661249138E100A6954F /* RealmSwiftSupportTests.swift in Sources */,
 			);
