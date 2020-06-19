@@ -8,6 +8,8 @@ class User: RealmSwift.Object {
 
 class ReintroduceEmailV2Tests: XCTestCase {
 
+  /// Just updating scheme. Empty migration block and no other logic.
+  /// Run after ReintroduceEmailV1Tests#test
   func test() {
     
     let config = makeConfig(
@@ -24,6 +26,9 @@ class ReintroduceEmailV2Tests: XCTestCase {
     }
   }
   
+  
+  /// Failing test. Cannot access deleted property in old schema's object.
+  /// Run after ReintroduceEmailV1Tests#test
   func testFailEmptyingEmailInOld() {
 
     let config = makeConfig(
@@ -44,6 +49,8 @@ class ReintroduceEmailV2Tests: XCTestCase {
     }
   }
   
+  /// Failing test. Cannot access deleted property in new schema's object.
+  /// Run after ReintroduceEmailV1Tests#test
   func testFailEmptyingEmailInNew() {
 
     let config = makeConfig(

@@ -59,6 +59,8 @@ class MigrationTests: XCTestCase {
     print(realmPath)
   }
   
+  
+  /// Utility test to delete the Realm file. Use to start tests from start.
   func testDeleteRealmFile() {
     
     do {

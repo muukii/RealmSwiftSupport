@@ -15,6 +15,7 @@ class ReintroduceEmailV1Tests: XCTestCase {
   
   // MARK: Migration Tests
   
+  /// Prepare initial data
   func test() {
     
     let config = makeConfig(
